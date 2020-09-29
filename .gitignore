@@ -2,6 +2,9 @@
 
 ### Gradle ###
 .gradle/
+build/
+client/build/
+server/build/
 
 # OSX
 .DS_Store

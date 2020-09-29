@@ -1,2 +1,4 @@
 rootProject.name = 'java-storage'
+include 'client'
+include 'server'
 
