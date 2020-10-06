@@ -1,4 +1,6 @@
 rootProject.name = 'java-storage'
 include 'io-client'
 include 'io-server'
+include 'netty-client'
+include 'netty-server'
 
