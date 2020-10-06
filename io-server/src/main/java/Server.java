@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class Server {
 
-    private static final String path = "server/src/main/resources/server_dir/";
+    private static final String path = "io-server/src/main/resources/server_dir/";
 
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(8189)) {

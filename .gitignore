@@ -3,8 +3,10 @@
 ### Gradle ###
 .gradle/
 build/
-client/build/
-server/build/
+.idea/modules/io-client/build/
+.idea/modules/io-server/build/
+io-client/build/
+io-server/build/
 
 # OSX
 .DS_Store

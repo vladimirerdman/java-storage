@@ -12,8 +12,8 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     public ListView<String> clientListView;
     public ListView<String> serverListView;
-    private String clientPath = "client/src/main/resources/client_dir";
-    private String serverPath = "server/src/main/resources/server_dir";
+    private String clientPath = "io-client/src/main/resources/client_dir";
+    private String serverPath = "io-server/src/main/resources/server_dir";
     private DataInputStream is;
     private DataOutputStream os;
 

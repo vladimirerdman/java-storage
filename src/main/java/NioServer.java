@@ -11,9 +11,9 @@ import java.util.concurrent.ExecutionException;
 
 public class NioServer {
     static final ByteBuffer buffer = ByteBuffer.allocate(256);
-    private static final int PORT = 8189;
-    private static final String SOURCE_PATH = "/Volumes/Lib/Projects/Java/java-storage/src/main/resources/source/readme.txt";
-    private static final String DESTINATION_PATH = "/Volumes/Lib/Projects/Java/java-storage/src/main/resources/destination/readme.txt";
+    private static final int PORT = 8189;//telnet localhost 8189
+    private static final String SOURCE_PATH = "src/main/resources/source/readme.txt";
+    private static final String DESTINATION_PATH = "src/main/resources/destination/readme.txt";
     static int cnt = 1;
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -38,7 +38,7 @@ public class NioServer {
         }
     }
 
-    private static void handleRead(SelectionKey current, Selector selector) throws IOException, ExecutionException, InterruptedException {
+    private static void handleRead(SelectionKey current, Selector selector) throws IOException {
         SocketChannel channel = (SocketChannel) current.channel();
 
         Path sourcePath = Paths.get(SOURCE_PATH);
@@ -63,18 +63,16 @@ public class NioServer {
                 channel.close();
                 System.out.println("Client left");
                 break;
-            } else if (x == 0) {
-                break;
-            } else {
-                buffer.flip();
-                fileChannelDestionation.write(buffer);
             }
+            if (x == 0) { break; }
+            buffer.flip();
+            fileChannelDestionation.write(buffer);
             while (buffer.hasRemaining()) {
                 s.append((char) buffer.get());
             }
             buffer.clear();
         }
-        //fileChannel.close();
+        fileChannelDestionation.close();
         System.out.println("File received");
         //channel.close();
 
