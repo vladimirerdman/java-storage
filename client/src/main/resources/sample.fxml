@@ -1,8 +1,15 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <AnchorPane prefHeight="620.0" prefWidth="620.0">
+       <ListView fx:id="clientListView" layoutX="14.0" layoutY="52.0" prefHeight="265.0" prefWidth="288.0" />
+       <Button layoutX="529.0" layoutY="332.0" mnemonicParsing="false" onAction="#upload" prefHeight="27.0" prefWidth="80.0" text="Upload" />
+       <Button layoutX="439.0" layoutY="332.0" mnemonicParsing="false" onAction="#refreshList" prefHeight="27.0" prefWidth="80.0" text="Refresh" />
+       <ListView fx:id="serverListView" layoutX="321.0" layoutY="52.0" prefHeight="265.0" prefWidth="288.0" />
+       <ListView fx:id="stackTrace" layoutX="14.0" layoutY="374.0" prefHeight="228.0" prefWidth="596.0" />
+   </AnchorPane>
 </GridPane>
