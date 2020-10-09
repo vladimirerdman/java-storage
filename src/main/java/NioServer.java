@@ -40,11 +40,10 @@ public class NioServer {
 
     private static void handleRead(SelectionKey current, Selector selector) throws IOException {
         SocketChannel channel = (SocketChannel) current.channel();
-
         Path sourcePath = Paths.get(SOURCE_PATH);
         Path destinationPath = Paths.get(DESTINATION_PATH);
         FileChannel fileChannelSource = FileChannel.open(sourcePath);
-        FileChannel fileChannelDestionation = FileChannel.open(
+        FileChannel fileChannelDestination = FileChannel.open(
                 destinationPath,
                 EnumSet.of(
                         StandardOpenOption.CREATE,
@@ -52,28 +51,35 @@ public class NioServer {
                         StandardOpenOption.WRITE
                 )
         );
-
         System.out.println("Message handled!");
         StringBuilder s = new StringBuilder();
+        Boolean send = false;
         int x;
         while (true) {
-            x = fileChannelSource.read(buffer);
+            if (send) {
+                x = fileChannelSource.read(buffer);
+            } else {
+                x = channel.read(buffer);
+            }
             if (x == -1) {
-                fileChannelDestionation.close();
+                if (send) { fileChannelDestination.close(); }
                 channel.close();
                 System.out.println("Client left");
                 break;
             }
             if (x == 0) { break; }
             buffer.flip();
-            fileChannelDestionation.write(buffer);
+            if (send) { fileChannelDestination.write(buffer); }
             while (buffer.hasRemaining()) {
                 s.append((char) buffer.get());
+                if (s.toString().equals("send")) { send = true; }
             }
             buffer.clear();
         }
-        fileChannelDestionation.close();
-        System.out.println("File received");
+        if (send) {
+            fileChannelDestination.close();
+            System.out.println("File received");
+        }
         //channel.close();
 
         if (current.isValid()) {
