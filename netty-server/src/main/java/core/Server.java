@@ -1,7 +1,9 @@
-import examples.StringHandler;
+package core;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -11,39 +13,40 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 public class Server {
-    private static int PORT = 8189;
+    private final int PORT;
 
-    public Server(int PORT) { Server.PORT = PORT; }
+    public Server(int port) { this.PORT = port; }
 
-    Server() {
-        EventLoopGroup authGroup = new NioEventLoopGroup(1);
+    public Server run() {
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap sb = new ServerBootstrap();
-            sb.group(authGroup, workerGroup)
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(
+                        @Override
+                        protected void initChannel(SocketChannel sc) throws Exception {
+                            sc.pipeline().addLast(
                                     new ObjectEncoder(),
                                     new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-                                    new StringHandler()
+                                    new ServerHandler()
                             );
                         }
-                    });
+                    })
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
             System.out.println("Server started");
-            ChannelFuture future = sb.bind(PORT).sync();
-            future.channel().closeFuture().sync();
+            ChannelFuture future = bootstrap.bind(PORT).sync();// Bind and start to accept incoming connections
+            future.channel().closeFuture().sync();// Shut down the server
             System.out.println("Server closed");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            authGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
+            bossGroup.shutdownGracefully();
         }
+        return null;
     }
 
-    public static void main(String[] args) {
-        new Server();
-    }
 }

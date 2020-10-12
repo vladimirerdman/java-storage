@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.MainPageController">
+   <AnchorPane prefHeight="227.0" prefWidth="620.0" stylesheets="@style.css">
+      <children>
+         <Pane prefHeight="200.0" prefWidth="620.0">
+            <children>
+               <Label layoutX="234.0" layoutY="77.0" text="Welcome, User!">
+                  <font>
+                     <Font name="Apple SD GothicNeo ExtraBold" size="22.0" />
+                  </font>
+               </Label>
+               <Label layoutX="282.0" layoutY="106.0" text="Settings &gt;" textFill="#007ddd" />
+            </children>
+         </Pane>
+         <Pane layoutY="200.0" prefHeight="165.0" prefWidth="620.0">
+            <children>
+               <Pane layoutX="263.0" layoutY="14.0" prefHeight="95.0" prefWidth="95.0">
+                  <children>
+                     <Pane layoutX="18.0" layoutY="6.0" prefHeight="60.0" prefWidth="60.0" styleClass="storageIcon" stylesheets="@style.css">
+                        <children>
+                           <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@images/local_storage.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </Pane>
+                     <Label alignment="CENTER" contentDisplay="CENTER" layoutY="73.0" prefHeight="17.0" prefWidth="95.0" text="Local Storage" textAlignment="CENTER" />
+                  </children>
+               </Pane>
+            </children>
+         </Pane>
+      </children>
+   </AnchorPane>
+</GridPane>
