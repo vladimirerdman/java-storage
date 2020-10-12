@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.LocalStorageController">
-   <AnchorPane prefHeight="620.0" prefWidth="620.0">
-
-   </AnchorPane>
-</GridPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.LocalStorageController">
+   <children>
+      <Pane id="mainHeader" prefHeight="50.0" prefWidth="1000.0">
+         <children>
+            <Button layoutX="16.0" layoutY="11.0" mnemonicParsing="false" onAction="#settings" text="Settings" />
+            <Button layoutX="948.0" layoutY="11.0" mnemonicParsing="false" text="Exit" />
+            <Button layoutX="379.0" layoutY="11.0" mnemonicParsing="false" text="Create folder" />
+            <Button layoutX="483.0" layoutY="11.0" mnemonicParsing="false" text="Upload" />
+            <Button layoutX="555.0" layoutY="11.0" mnemonicParsing="false" text="Download" />
+            <Button layoutX="643.0" layoutY="11.0" mnemonicParsing="false" text="Delete" />
+            <Button layoutX="304.0" layoutY="11.0" mnemonicParsing="false" text="Refresh" />
+         </children>
+      </Pane>
+      <Pane id="storageHeader" layoutY="50.0" prefHeight="50.0" prefWidth="1000.0" styleClass="borderTopAndBottom">
+         <children>
+            <Label layoutX="462.0" layoutY="16.0" text="Local Storage">
+               <font>
+                  <Font name="Apple Braille" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="100.0" prefHeight="450.0" prefWidth="1000.0">
+         <children>
+            <ListView fx:id="serverListView" prefHeight="450.0" prefWidth="1000.0" />
+         </children>
+      </Pane>
+      <Pane id="mainFooter" layoutY="550.0" prefHeight="50.0" prefWidth="1000.0" styleClass="borderTopAndBottom">
+         <children>
+            <Label layoutX="16.0" layoutY="16.0" text="Local Storage">
+               <font>
+                  <Font name="Apple Braille" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
