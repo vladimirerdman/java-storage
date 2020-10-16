@@ -1,2 +1,2 @@
 iCloud: '';
-Local Storage: '/Users/';
+Local Storage: '/';
