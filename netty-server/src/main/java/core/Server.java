@@ -14,6 +14,7 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 
 public class Server {
     private final int PORT;
+    private final ServerHandler serverHandler = new ServerHandler();
 
     public Server(int port) { this.PORT = port; }
 
@@ -30,7 +31,7 @@ public class Server {
                             sc.pipeline().addLast(
                                     new ObjectEncoder(),
                                     new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-                                    new ServerHandler()
+                                    serverHandler
                             );
                         }
                     })

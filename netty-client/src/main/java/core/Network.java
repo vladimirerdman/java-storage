@@ -14,12 +14,16 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 public class Network {
     private static Network network;
     private SocketChannel channel;
-    private final ClientHandler clientHandler = new ClientHandler();
+    private ClientHandler clientHandler = new ClientHandler();
     private final String HOST;
     private final int PORT;
 
     public static Network getInstance() {
         return network;
+    }
+
+    public ClientHandler getClientHandler() {
+        return clientHandler;
     }
 
     public Network(String host, int port) {

@@ -1,5 +1,3 @@
-
-import core.MainSettingsController;
 import core.Network;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,7 @@ public class ClientApp extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("mainPage.fxml"));
         primaryStage.setTitle("Storage");
-        
+
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

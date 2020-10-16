@@ -1,14 +1,17 @@
 package core;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LocalStorageController {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class LocalStorageController implements Initializable {
+    private Network network = Network.getInstance();
     public ListView serverListView;
 
     public void settings(javafx.event.ActionEvent actionEvent) {
@@ -20,6 +23,13 @@ public class LocalStorageController {
             stage.show();
         } catch(Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Thread t = new Thread(() -> {
+
         }
     }
 }
