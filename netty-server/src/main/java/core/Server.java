@@ -8,13 +8,14 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.serialization.ClassResolvers;
-import io.netty.handler.codec.serialization.ObjectDecoder;
-import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 
 public class Server {
     private final int PORT;
     private final ServerHandler serverHandler = new ServerHandler();
+    private static final Logger log = LogManager.getLogger(Server.class);
 
     public Server(int port) { this.PORT = port; }
 
@@ -29,19 +30,20 @@ public class Server {
                         @Override
                         protected void initChannel(SocketChannel sc) throws Exception {
                             sc.pipeline().addLast(
-                                    new ObjectEncoder(),
-                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
+                                    //new ObjectEncoder(),
+                                    //new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
                                     serverHandler
                             );
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-            System.out.println("Server started");
+            log.info("Server started");
             ChannelFuture future = bootstrap.bind(PORT).sync();// Bind and start to accept incoming connections
             future.channel().closeFuture().sync();// Shut down the server
-            System.out.println("Server closed");
+            //log.info("Server closed");
         } catch (InterruptedException e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         } finally {
             workerGroup.shutdownGracefully();

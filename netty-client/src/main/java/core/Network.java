@@ -10,11 +10,14 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Network {
-    private static Network network;
+    private static final Logger log = LogManager.getLogger(Network.class.getName());
     private SocketChannel channel;
     private ClientHandler clientHandler = new ClientHandler();
+    private static Network network;
     private final String HOST;
     private final int PORT;
 
@@ -49,11 +52,10 @@ public class Network {
                                         );
                             }
                         });
-                System.out.println("Client started");
                 ChannelFuture future = bootstrap.connect(HOST, PORT).sync();
                 future.channel().closeFuture().sync();
-                System.out.println("Client closed");
             } catch (Exception e) {
+                log.error(e.getMessage());
                 e.printStackTrace();
             } finally {
                 eventGroup.shutdownGracefully();

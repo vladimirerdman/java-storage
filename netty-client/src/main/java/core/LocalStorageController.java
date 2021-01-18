@@ -6,11 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LocalStorageController implements Initializable {
+    private static final Logger log = LogManager.getLogger(LocalStorageController.class.getName());
     private Network network = Network.getInstance();
     public ListView serverListView;
 
@@ -22,14 +25,21 @@ public class LocalStorageController implements Initializable {
             stage.setScene(new Scene(localStorage));
             stage.show();
         } catch(Exception e) {
+            log.error(e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread t = new Thread(() -> {
-
-        }
+        new Thread(() -> {
+            network.getClientHandler().setCallback(serviceMessage -> {
+                System.out.println(serviceMessage.toString());
+//                String[] command = serviceMessage.split("\n");
+//                if (command[0].equals("/FileList")) {
+//
+//                }
+            });
+        }).start();
     }
 }

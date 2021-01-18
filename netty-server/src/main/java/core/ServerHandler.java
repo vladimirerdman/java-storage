@@ -1,125 +1,83 @@
 package core;
 
+import common.utils.Callback;
 import common.utils.State;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
-public class ServerHandler extends SimpleChannelInboundHandler<Object> {
+public class ServerHandler extends ChannelInboundHandlerAdapter {
+    private static final Logger log = LogManager.getLogger(ServerHandler.class.getName());
+    private Callback callback;
     private State currentState;
     private int commandLength = 0;
-    private StringBuilder stringBuilder;
+    private StringBuilder sb;
 
     public ServerHandler() { currentState = State.IDLE; }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf = (ByteBuf) msg;
-        while (buf.readableBytes() > 0) {
-            /**
-             * Getting signal byte
-             */
-            if (currentState == State.IDLE) {
-                byte readCode = buf.readByte();
-                if (readCode == (byte)10) {
-                    currentState = State.COMMAND;
-                    System.out.println("Received code: " + readCode);
-                } else {
-                    currentState = State.IDLE;
-                    System.out.println("Unknown byte command arrived: " + readCode);
-                }
-            }
+        try {
+            while (buf.readableBytes() > 0) {
+                if (currentState.equals(State.IDLE)) {
+                    byte readByte = buf.readByte();
 
-            /**
-             * Receiving command
-             */
-            if (currentState == State.COMMAND) {
-                if (buf.readableBytes() >= 4) {
-                    commandLength = buf.readInt();
-                    currentState = State.COMMAND_READ;
-                    System.out.println("Received command: " + commandLength);
-                }
-            }
-            if (currentState == State.COMMAND_READ) {
-                stringBuilder = new StringBuilder();
-                while (buf.readableBytes() > 0 && commandLength != 0) {
-                    commandLength--;
-                    stringBuilder.append((char) buf.readByte());
-                }
-                currentState = State.COMMAND_DO;
-            }
-
-            if (currentState == State.COMMAND_DO) {
-                String[] command = stringBuilder.toString().split("\n");
-                switch (command[0]) {
-                    // TODO: Add switch for each command
-                    case "/download":
-                        System.out.println("Server: download");
-                        break;
-                    case "/enterToDirectory":
-                        System.out.println("Server: enter to dir");
-                        break;
-                    case "/delete":
-                        System.out.println("Server: delete");
-                        break;
-                    case "/rename":
-                        System.out.println("Server: rename");
-                        break;
-                    case "/createDirectory":
-                        System.out.println("Server: create dir");
-                        break;
-                    case "/updateFileList":
-                        currentState = State.FILE_LIST;
-                        System.out.println("Server: update file list");
-                        break;
-
-                    default:
+                    //readByte = (byte) 16;
+                    if (readByte == (byte) 16) {
+                        log.info("Received 16 bytes . " + ctx.channel().localAddress());
+                        currentState = State.COMMAND;
+                    } else if (readByte == (byte) 11) {
+                        log.info("Received 11 bytes . " + ctx.channel().localAddress());
+                        currentState = State.FILE_NAME_LENGTH;
+                    } else {
                         currentState = State.IDLE;
-                        throw new IllegalArgumentException("Server: Unknown command: " + stringBuilder.toString());
+                        log.error(String.format("[ip: %s]: Unknown byte command arrived: " + readByte, ctx.channel().remoteAddress()));
+                        //throw new RuntimeException("Unknown byte command arrived: " + readByte);
+                    }
+                }
+
+                if (currentState.equals(State.COMMAND)) {
+                    if (buf.readableBytes() >= 4) {
+                        commandLength = buf.readInt();
+                        currentState = State.COMMAND_READ;
+                        System.out.println("commandLength: " + commandLength);
+                        System.out.println("currentState: " + currentState);
+                    }
+                }
+                if (currentState.equals(State.COMMAND_READ)) {
+                    sb = new StringBuilder();
+                    while (buf.readableBytes() > 0 && commandLength != 0) {
+                        System.out.println("Here");
+                        commandLength--;
+                        sb.append((char) buf.readByte());
+                    }
+                    currentState = State.COMMAND_DO;
                 }
             }
-
-            /**
-             * Receiving file
-             */
-            if (currentState == State.FILE_NAME_LENGTH) {
-                System.out.println("Server: Receiving file");
-            }
-
-            if (currentState == State.NAME) {
-                System.out.println("Server: Receiving name");
-            }
-
-            if (currentState == State.FILE_SIZE) {
-                System.out.println("Server: Receiving file size");
-            }
-
-            if (currentState == State.FILE) {
-                System.out.println("Server: File");
-            }
-
-            /**
-             * Sending file list
-             */
-            if (currentState == State.FILE_LIST) {
-                System.out.println("Server: File list");
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            buf.release();
         }
+
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Client connected");
+        log.info("Client with ip: " + ctx.channel().localAddress() + " connected");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Client disconnected");
+        log.info("Client with ip: " + ctx.channel().localAddress() + " disconnected");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        log.error("Exception occurred on server side");
         cause.printStackTrace();
         ctx.close();
     }
