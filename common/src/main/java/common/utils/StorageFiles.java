@@ -48,8 +48,8 @@ public class StorageFiles {
         return true;
     }
 
-    public static void writeToFile(String pathToDir, String filename, String fileExtension, String value) {
-        File file = new File(pathToDir + filename + fileExtension);
+    public static void writeToFile(String pathToDir, String filename, String value) {
+        File file = new File(pathToDir + filename);
         writingToFile(file, value);
     }
 

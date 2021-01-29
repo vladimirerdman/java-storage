@@ -1,5 +1,11 @@
 package common.utils;
 
+/**
+ * This file will be removed.
+ * I will use method Files.walkFileTree()
+ * Thank you.
+ */
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

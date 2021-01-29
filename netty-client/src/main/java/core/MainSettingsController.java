@@ -27,18 +27,20 @@ public class MainSettingsController implements Initializable {
 
     public void setLocalStoragePath(String value) { localStoragePath.setText(value); }
 
-    public String getLocalStoragePath() { return localStoragePath.getText(); }
+//    public String getLocalStoragePath() {// <- Null point exception
+//        //return localStoragePath.getText();
+//    }
 
     public void settingsSave(ActionEvent actionEvent) throws IOException {
         String path = "";
-        if (LSPathBefore.equals("") && !getLocalStoragePath().equals("")) {// Add new line to settings file
-            System.out.println("Add: " + getLocalStoragePath());
-            LSPathBefore = getLocalStoragePath();
-            path = "Local Storage: '" + getLocalStoragePath() + "';";
+        if (LSPathBefore.equals("") && !localStoragePath.getText().equals("")) {// Add new line to settings file
+            System.out.println("Add: " + localStoragePath.getText());
+            LSPathBefore = localStoragePath.getText();
+            path = "Local Storage: '" + LSPathBefore + "';";
             StorageFiles.writeToFile(configDir + settingsFile, path);
-        } else if (!LSPathBefore.equals(getLocalStoragePath()) && !getLocalStoragePath().equals("")) {// Update line in settings file
+        } else if (!LSPathBefore.equals(localStoragePath.getText()) && !localStoragePath.getText().equals("")) {// Update line in settings file
             if (StoragePath.checkFAvailability(settingsFilePath)) {
-                updateSettings(settingsFilePath, "Local Storage", getLocalStoragePath());
+                updateSettings(settingsFilePath, "Local Storage", localStoragePath.getText());
             } else {
                 System.out.println("File not found");
             }
@@ -134,11 +136,11 @@ public class MainSettingsController implements Initializable {
      * Saving last chosen Path for Local Storage
      */
     private void lastPathOfLS() {
-        if (getLocalStoragePath().isEmpty()) {
+        if (localStoragePath.getText().isEmpty()) {
             LSPathBefore = "";
             System.out.println("If: " + LSPathBefore);
         } else {
-            LSPathBefore = getLocalStoragePath();
+            LSPathBefore = localStoragePath.getText();
             System.out.println("Else: " + LSPathBefore);
         }
     }

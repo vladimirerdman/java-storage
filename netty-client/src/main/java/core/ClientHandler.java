@@ -10,7 +10,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     private Callback callback;
     private State currentState;
     private final MainSettingsController settingsValue = new MainSettingsController();
-    private final String localStoragePath = settingsValue.getLocalStoragePath();
+//    private final String localStoragePath = settingsValue.getLocalStoragePath(); // <- Null point exception
 
     public ClientHandler() { currentState = State.IDLE; }
 
