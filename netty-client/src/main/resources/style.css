@@ -1,0 +1,14 @@
+.storageIcon {
+    -fx-border-color: #e5e5e5;
+    -fx-border-radius: 10;
+    -fx-background-color: transparent;
+}
+
+.borderTopAndBottom {
+    -fx-border-style: solid;
+    -fx-border-color: #e5e5e5;
+}
+
+.mainPageHeader {
+    -fx-background-color: #e3e3e3;
+}

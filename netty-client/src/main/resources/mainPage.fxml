@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.MainPageController">
+   <AnchorPane prefHeight="227.0" prefWidth="620.0" stylesheets="@style.css">
+      <children>
+         <Pane prefHeight="200.0" prefWidth="620.0" styleClass="mainPageHeader" stylesheets="@style.css">
+            <children>
+               <Label layoutX="234.0" layoutY="77.0" text="Welcome, User!">
+                  <font>
+                     <Font name="Apple SD GothicNeo ExtraBold" size="22.0" />
+                  </font>
+               </Label>
+               <Label layoutX="282.0" layoutY="106.0" onMouseClicked="#settings" text="Settings &gt;" textFill="#007ddd" />
+            </children>
+         </Pane>
+         <Pane layoutY="200.0" prefHeight="165.0" prefWidth="620.0">
+            <children>
+               <Button alignment="BOTTOM_CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="263.0" layoutY="35.0" mnemonicParsing="false" onAction="#goToLocalStorage" prefHeight="95.0" prefWidth="95.0" style="-fx-background-color: transparent;" styleClass="storageIcon" stylesheets="@style.css" text="Local Storage" />
+            </children>
+         </Pane>
+      </children>
+   </AnchorPane>
+</GridPane>

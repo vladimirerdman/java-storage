@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.MainSettingsController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Button id="settingsClose" layoutX="540.0" layoutY="12.0" mnemonicParsing="false" text="Back" />
+         </children>
+      </Pane>
+      <Pane layoutY="50.0" prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Local Storage default path" />
+            <TextField fx:id="localStoragePath" layoutX="167.0" layoutY="9.0" prefHeight="27.0" prefWidth="419.0" text="" />
+         </children></Pane>
+      <Button id="settingsSave" layoutX="277.0" layoutY="100.0" mnemonicParsing="false" onAction="#settingsSave" text="Save" />
+   </children>
+</AnchorPane>

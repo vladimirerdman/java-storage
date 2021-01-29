@@ -8,5 +8,9 @@ build/
 io-client/build/
 io-server/build/
 
+common/build/
+netty-client/build/
+netty-server/build/
+
 # OSX
 .DS_Store
